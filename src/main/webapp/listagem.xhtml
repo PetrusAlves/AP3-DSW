@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Listagem de Canetas Cadastradas</title>
+</h:head>
+<h:body>
+    <h1>Listagem de Canetas Cadastradas</h1>
+
+    <h:form id="formulario">
+        <p:messages id="msg" showDetail="true" />
+
+        <p:dataTable id="tabela" value="#{canetaBean.listar()}" var="c" editable="true" style="margin-bottom:20px">
+            
+            <p:column headerText="Selecionar">
+                <p:selectBooleanCheckbox >
+                    <p:ajax listener="#{canetaBean.selecionarCaneta(c)}" update=":formulario:msg"/>
+                </p:selectBooleanCheckbox>
+            </p:column>
+            
+            <p:column headerText="Id">
+                <h:outputText value="#{c.id}" />
+            </p:column>
+
+            <p:column headerText="Marca da Caneta">
+                <h:outputText value="#{c.marca}" />
+            </p:column>
+
+            <p:column headerText="Modelo da Caneta">
+                <h:outputText value="#{c.modelo}" />
+            </p:column>
+
+            <p:column headerText="Cor da Caneta">
+                <h:outputText value="#{c.cor}" />
+            </p:column>
+
+            <p:column headerText="Excluir">
+                <p:commandButton action="#{canetaBean.excluir(c.id)}" 
+                                 icon="pi pi-trash" 
+                                 styleClass="p-button-rounded p-button-danger" 
+                                 update=":formulario:msg :formulario:tabela" 
+                                 process="@this"
+                                 ajax="true"
+                                 immediate="true"/>
+            </p:column>
+            
+            
+        </p:dataTable>
+
+        <p:commandButton action="index.xhtml" value="Voltar para tela de cadastro" styleClass="rounded-button" style="margin-right: 15px" update="formulario" />
+        <p:commandButton value="Contar Canetas por Cor" action="#{canetaBean.contarCanetasPorCor}" update=":formulario:msg" />
+    </h:form>
+</h:body>
+</html>
